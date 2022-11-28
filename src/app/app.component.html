@@ -1,0 +1,35 @@
+<div class="container p-3">
+  <div class="row">
+    <div class="col">
+      <ngb-alert [dismissible]="false" type="primary" (click)="openDetails()">
+        {{ notification || '...' }}
+      </ngb-alert>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="shadow p-3 bg-white rounded">
+        <app-station-list></app-station-list>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <div class="shadow p-3 bg-white rounded">
+            <app-station-detail></app-station-detail>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col">
+          <div class="shadow p-3 bg-white rounded">
+            <app-variance-visualization></app-variance-visualization>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

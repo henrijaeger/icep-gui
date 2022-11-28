@@ -1,0 +1,18 @@
+<div *ngIf="loading" class="d-flex justify-content-center align-items-center">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+
+<div class="station-list">
+  <div *ngFor="let s of stations; index as i" [ngClass]="{'station': true, 'selected': isSelected(s)}" (click)="open(s)">
+    <span class="name"> <span class="index"> {{ ( i + 1) }} </span> {{ s.id }} </span>
+    <span class="link" ngbTooltip="Details anzeigen">
+      <em class="bi bi-caret-right"></em>
+      <em class="bi bi-caret-right"></em>
+      <em class="bi bi-caret-right"></em>
+    </span>
+  </div>
+</div>
+
+<span class="d-block mt-3"> {{ stations.length }} Stationen </span>
