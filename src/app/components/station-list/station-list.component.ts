@@ -21,7 +21,7 @@ export class StationListComponent implements OnInit {
   }
 
   open(station: Station) {
-    this.service.station = station;
+    this.service.loadDetails(station);
   }
 
   isSelected(station: Station) {

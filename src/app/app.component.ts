@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { StationService } from "./service/station.service";
+import {StationService} from "./service/station.service";
 import {Station} from "./domain/model";
 
 @Component({
@@ -13,8 +13,7 @@ export class AppComponent implements OnInit {
   notification?: string;
   notificationTimeout?: any;
 
-  constructor(private service: StationService) {
-  }
+  constructor(private service: StationService) {}
 
   ngOnInit(): void {
     this.service.stationAdd$.subscribe(s => {
@@ -33,7 +32,7 @@ export class AppComponent implements OnInit {
 
   openDetails() {
     if (this.station) {
-      this.service.station = this.station;
+      this.service.loadDetails(this.station);
     }
   }
 

@@ -1,51 +1,62 @@
-<div class="container p-3">
+<div class="pt-3 pb-1 clearfix">
+  <div class="container" [formGroup]="data">
 
-  <div class="row mb-3">
-    <div class="col-2"> Name </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="ID" [(ngModel)]="id">
-    </div>
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-2"> Date </div>
-    <div class="col">
-      <div class="input-group">
-        <input
-          #date="ngbDatepicker"
-          ngbDatepicker
-
-          class="form-control"
-          placeholder="dd.MM.yyyy"
-          name="dp"
-
-          (click)="date.open()"
-
-          [(ngModel)]="model">
-        <button class="btn btn-outline-secondary bi bi-calendar3" (click)="date.toggle()" type="button"></button>
+    <div class="row mb-3">
+      <div class="col-2"> Name </div>
+      <div class="col">
+        <input type="text" class="form-control" placeholder="ID" formControlName="id">
       </div>
     </div>
-  </div>
 
-  <div class="row mb-3">
-    <div class="col-2"> Target </div>
-    <div class="col">
-      <input type="text" class="form-control" [value]="target">
+    <div class="row mb-3">
+      <div class="col-2"> Date </div>
+      <div class="col">
+        <div class="input-group">
+          <input
+            #date="ngbDatepicker"
+            ngbDatepicker
+
+            class="form-control"
+            placeholder="yyyy-MM-dd"
+            formControlName="date"
+            name="dp"
+
+            (click)="date.open()"
+
+            [readOnly]="true">
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="date.toggle()" type="button"></button>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="row mb-3">
-    <div class="col-2"> Value </div>
-    <div class="col">
-      <input type="text" class="form-control" [value]="value">
+    <div class="row mb-3">
+      <div class="col-2"> Target </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="target">
+      </div>
     </div>
-  </div>
 
-  <div class="row">
-    <div class="col-2"> Variance </div>
-    <div class="col">
-      <input type="text" class="form-control" [value]="variance" disabled>
+    <div class="row mb-3">
+      <div class="col-2"> Value </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="value">
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-2"> Variance </div>
+      <div class="col">
+        <input type="text" class="form-control" [value]="variance" disabled>
+      </div>
+    </div>
+
   </div>
 
+  <hr class="mx-3 mt-4">
+
+  <div class="container control-container">
+    <button class="btn btn-outline-secondary float-end" (click)="abort()"> Abort </button>
+    <button class="btn btn-success float-end me-2" (click)="update()"> Save </button>
+    <span *ngIf="notification" [class]="notification.type"> {{ notification.message }} </span>
+  </div>
 </div>

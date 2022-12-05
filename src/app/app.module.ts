@@ -7,8 +7,10 @@ import { stompConfig, WsEndpointService } from "./service/ws-endpoint.service";
 import { StationListComponent } from './components/station-list/station-list.component';
 import { StationDetailComponent } from './components/station-detail/station-detail.component';
 import {NgbAlertModule, NgbDatepickerModule, NgbProgressbarModule, NgbTooltipModule} from "@ng-bootstrap/ng-bootstrap";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { VarianceVisualizationComponent } from './components/variance-visualization/variance-visualization.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ViewSwapComponent } from './components/view-swap/view-swap.component';
 
 export function rxStompServiceFactory() {
   const rxStomp = new WsEndpointService();
@@ -22,13 +24,16 @@ export function rxStompServiceFactory() {
     AppComponent,
     StationListComponent,
     StationDetailComponent,
-    VarianceVisualizationComponent
+    VarianceVisualizationComponent,
+    DashboardComponent,
+    ViewSwapComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbDatepickerModule,
     FormsModule,
+    ReactiveFormsModule,
     NgbAlertModule,
     NgbTooltipModule,
     NgbProgressbarModule
