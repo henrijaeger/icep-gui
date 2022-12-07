@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StationService } from "../../service/station.service";
 import { Station } from "../../domain/model";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-station-list',
@@ -16,7 +17,7 @@ export class StationListComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
 
-    this.service.fetchStations();
+    this.service.fetchStations().subscribe();
     this.service.stations$.subscribe(() => this.loading = false);
   }
 

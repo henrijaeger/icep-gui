@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { WsEndpointService } from "./ws-endpoint.service";
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 import { Response, Station, StationUpdate, StationUpdateDto } from "../domain/model";
-import { filter, map, take } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class StationService {
 
   static readonly CHANNEL = "ws";
   static readonly NEW_STATION = "new-station";
-  static readonly STATION_LIST = "station-list";
-  static readonly STATION_DETAIL = "station-detail";
+  static readonly STATION_UPDATE = "station-update";
 
   stations: Station[] = [];
   station?: Station;
@@ -22,26 +22,17 @@ export class StationService {
   stationAdd$: Subject<Station> = new Subject<Station>();
   stationUpdate$: Subject<StationUpdate> = new Subject<StationUpdate>();
 
-  /**/
-  detailBroker!: Observable<Station>;
-
-  constructor(private ws: WsEndpointService) {
+  constructor(private ws: WsEndpointService, private http: HttpClient) {
     this.registerHandlers();
   }
 
   private registerHandlers() {
-    this.watch<Station[]>(`/${ StationService.CHANNEL }/${ StationService.STATION_LIST }`).subscribe(s => {
-      this.stations$.next(s);
-      this.stations = s;
-    });
-
     this.watch<Station>(`/${ StationService.CHANNEL }/${ StationService.NEW_STATION }`).subscribe(s => {
       this.stationAdd$.next(s);
       this.stations.push(s);
     });
 
-    this.detailBroker = this.watch<Station>(`/${ StationService.CHANNEL }/${ StationService.STATION_DETAIL }`);
-    this.detailBroker.subscribe(s => {
+    this.watch<Station>(`/${ StationService.CHANNEL }/${ StationService.STATION_UPDATE }`).subscribe(s => {
       const ex = this.stations.filter(t => t.id === s.id).pop();
 
       if (s && s.id) {
@@ -68,8 +59,19 @@ export class StationService {
     return this.ws.watch(endpoint).pipe(map(s => handle(s.body)));
   }
 
-  fetchStations() {
-    this.ws.publish({ destination: "/icep/list" });
+  fetchStations(): Observable<Station[]> {
+    return this.http.get<Response>('http://localhost:8080/list').pipe(map(response => {
+      if (response.status === "OK") {
+        const stations = response.value as Station[];
+
+        this.stations = stations;
+        this.stations$.next(stations);
+
+        return stations;
+      } else {
+        throw response;
+      }
+    }));
   }
 
   loadDetails(station: Station) {
@@ -78,9 +80,13 @@ export class StationService {
   }
 
   updateDetails(id: string, station: StationUpdateDto): Observable<Station> {
-    this.ws.publish({ destination: `/icep/detail/${ id }`, body: JSON.stringify(station) });
-
-    return this.detailBroker.pipe(filter(x => x.id === id), take(1));
+    return this.http.patch<Response>('http://localhost:8080/detail/' + id, station).pipe(map(response => {
+      if (response.status === "OK") {
+        return response.value as Station;
+      } else {
+        throw response;
+      }
+    }), catchError(e => { throw (e.error) }));
   }
 
   variance(station?: Station): number {

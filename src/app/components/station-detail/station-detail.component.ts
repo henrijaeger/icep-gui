@@ -90,6 +90,12 @@ export class StationDetailComponent implements OnInit {
       if (s?.date) {
         this.data.controls.date.patchValue({ year: s.date[0], month: s.date[1], day: s.date[2] });
       }
+
+      if (this.notification?.timeoutId) {
+        clearTimeout(this.notification.timeoutId);
+
+        this.notification = undefined;
+      }
     }
   }
 
