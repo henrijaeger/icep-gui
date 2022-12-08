@@ -137,7 +137,7 @@ export class VarianceVisualizationComponent implements OnInit {
 
   calcColor(d: any) {
     if (d <= -10) {
-      return "rgba(100, 100, 200, 1)";
+      return "rgba(200, 100, 100, 1)";
     } else if (d > 5) {
       return "rgba(100, 200, 100, 1)";
     } else {

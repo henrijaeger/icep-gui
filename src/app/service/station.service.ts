@@ -41,6 +41,10 @@ export class StationService {
         if (this.station && this.station.id === s.id) {
           Object.assign(this.station, s);
         }
+
+        if (ex) {
+          Object.assign(ex, s);
+        }
       }
     });
   }
@@ -94,7 +98,7 @@ export class StationService {
       const val = station.value || 0;
       const tar = station.target || 0;
 
-      return tar - val;
+      return val - tar;
     } else {
       return 0;
     }

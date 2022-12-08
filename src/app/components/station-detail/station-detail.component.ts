@@ -3,6 +3,7 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { StationService } from "../../service/station.service";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Station } from 'src/app/domain/model';
+import {ActivatedRoute} from "@angular/router";
 
 enum NotificationType {
 
@@ -26,6 +27,7 @@ interface Notification {
 })
 export class StationDetailComponent implements OnInit {
 
+  details = true;
   notification?: Notification;
 
   data: FormGroup = new FormGroup({
@@ -37,7 +39,8 @@ export class StationDetailComponent implements OnInit {
 
   initialData?: Station;
 
-  constructor(private service: StationService) {}
+  constructor(private route: ActivatedRoute,
+              private service: StationService) {}
 
   ngOnInit(): void {
     const load = (s?: Station) => {
@@ -47,6 +50,14 @@ export class StationDetailComponent implements OnInit {
 
     this.service.station$.subscribe(s => load(s));
     this.service.stationUpdate$.subscribe(u => load(u.after));
+
+    this.route.fragment.subscribe(f => {
+      if (f === "detail") {
+        this.details = true;
+      } else if (f === "visualize") {
+        this.details = false;
+      }
+    });
   }
 
   update() {
@@ -112,7 +123,7 @@ export class StationDetailComponent implements OnInit {
   }
 
   get variance() {
-    const v = (this.data.controls.target.value || 0) - (this.data.controls.value.value || 0);
+    const v = (this.data.controls.value.value || 0) - (this.data.controls.target.value || 0);
 
     return isNaN(v) ? '...' : v;
   }
