@@ -3,7 +3,7 @@ import { NgbDateStruct } from "@ng-bootstrap/ng-bootstrap";
 import { StationService } from "../../service/station.service";
 import { FormGroup, FormControl } from "@angular/forms";
 import { Station } from 'src/app/domain/model';
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 enum NotificationType {
 

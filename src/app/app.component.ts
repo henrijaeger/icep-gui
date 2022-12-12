@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {StationService} from "./service/station.service";
-import {Station} from "./domain/model";
+import { Component, OnInit } from '@angular/core';
+import { StationService } from "./service/station.service";
+import { Station } from "./domain/model";
 
 @Component({
   selector: 'app-root',

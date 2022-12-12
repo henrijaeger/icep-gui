@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -8,18 +7,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class DashboardComponent implements OnInit {
 
-  details = true;
+  constructor() { }
 
-  constructor(private route: ActivatedRoute) { }
-
-  ngOnInit() {
-    this.route.fragment.subscribe(f => {
-      if (f === "detail") {
-        this.details = true;
-      } else if (f === "visualize") {
-        this.details = false;
-      }
-    });
-  }
+  ngOnInit() {}
 
 }
